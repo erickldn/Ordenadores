@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ordenadores</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: #73d1e9;
+        padding-top: 20px;
+    }
+    
+    .sort-buttons {
+        margin-bottom: 20px;
+        text-align: center;
+    }
+    
+    #output {
+        margin-top: 20px;
+    }
+
+    #time {
+        margin-top: 20px;
+    }
+
+    #result {
+        margin-top: 40px; /* Aumenta a margem superior para descer a posição do textarea */
+        width: 60%;
+        height: 150px;
+    }
+
+    h1 {
+        margin-bottom: 20px;
+    }
+
+    select, button {
+        margin: 10px 0;
+        padding: 5px;
+    }
+
+    #inputNumbers {
+        font-size: 16px; /* Aumenta o tamanho da fonte */
+        padding: 10px; /* Adiciona algum espaço ao redor do texto */
+        resize: none; /* Impede o redimensionamento manual */
+        width: 600px; /* Define a largura do campo de texto */
+        height: 120px; /* Define a altura do campo de texto para caber 5 linhas */
+        overflow-wrap: break-word; /* Quebra as palavras quando não houver mais espaço horizontal */
+        vertical-align: top; /* Alinha o texto ao topo */
+    }
+
+    .sort-button {
+        background-color: green;
+        color: white;
+        border: none;
+        cursor: pointer;
+    }
+
+    .reset-button {
+        background-color: red;
+        color: white;
+        border: none;
+        cursor: pointer;
+    }
+
+    button:hover {
+        opacity: 0.8;
+    }
+</style>
+</head>
+<body>
+
+<h1>Ordenadores</h1>
+
+<div class="sort-buttons">
+    <label for="inputNumbers">Insira os números (separados por vírgula):</label><br>
+    <input type="text" id="inputNumbers"><br><br>
+    
+    <select id="sortAlgorithm">
+        <option value="glowworm">Glowworm</option>
+        <option value="slow">Slow</option>
+        <option value="bogo">Bogo</option>
+        <option value="binary-tree">Binary Tree</option>
+        <option value="stooge">Stooge</option>
+        <option value="pigeonhole">Pigeonhole</option>
+        <option value="cycle">Cycle</option>
+        <option value="comb">Comb</option>
+        <option value="gnome">Gnome</option>
+        <option value="cocktail">Cocktail Shaker</option>
+        <option value="counting">Counting</option>
+        <option value="bucket">Bucket</option>
+        <option value="radix">Radix</option>
+        <option value="heap">Heap</option>
+        <option value="shell">Shell</option>
+        <option value="selection">Selection</option>
+        <option value="insertion">Insertion</option>
+        <option value="merge">Merge</option>
+        <option value="bubble">Bubble</option>
+    </select>
+    <button class="sort-button" onclick="sort()">Ordenar</button>
+    <button class="reset-button" onclick="resetInput()">Zerar</button> <!-- Botão pra zerar os ordenadores -->
+</div>
+
+<div id="output"></div>
+<div id="time"></div>
+
+<textarea id="result" rows="10" readonly>Resposta...</textarea>
+
+<script>
+    function checkLogin() {
+        if (!sessionStorage.getItem('loggedIn')) {
+            window.location.href = 'login.html';
+        }
+    }
+
+    function sort() {
+        let inputNumbers = document.getElementById("inputNumbers").value;
+        let numbers = inputNumbers.split(',').map(Number); // Convertendo os números para um array
+        
+        let algorithm = document.getElementById("sortAlgorithm").value;
+        
+        let startTime = performance.now(); // Início do cronômetro
+        
+        switch (algorithm) {
+            case "glowworm":
+                glowwormSort(numbers);
+                break;
+            case "slow":
+                slowSort(numbers);
+                break;
+            case "bogo":
+                bogoSort(numbers);
+                break;
+            case "binary-tree":
+                binaryTreeSort(numbers);
+                break;
+            case "stooge":
+                stoogeSort(numbers);
+                break;
+            case "pigeonhole":
+                pigeonholeSort(numbers);
+                break;
+            case "cycle":
+                cycleSort(numbers);
+                break;
+            case "comb":
+                combSort(numbers);
+                break;
+            case "gnome":
+                gnomeSort(numbers);
+                break;
+            case "cocktail":
+                cocktailShakerSort(numbers);
+                break;
+            case "counting":
+                countingSort(numbers);
+                break;
+            case "bucket":
+                bucketSort(numbers);
+                break;
+            case "radix":
+                radixSort(numbers);
+                break;
+            case "heap":
+                heapSort(numbers);
+                break;
+            case "shell":
+                shellSort(numbers);
+                break;
+            case "selection":
+                selectionSort(numbers);
+                break;
+            case "insertion":
+                insertionSort(numbers);
+                break;
+            case "merge":
+                mergeSort(numbers);
+                break;
+            case "bubble":
+                bubbleSort(numbers);
+                break;
+        }
+        
+        numbers.sort((a, b) => a - b); // Ordena os números do menor para o maior
+
+        let endTime = performance.now(); // Fim do cronômetro
+        let elapsedTime = endTime - startTime; // Cálculo do tempo decorrido
+        
+        document.getElementById("time").innerHTML = "Tempo decorrido: " + elapsedTime.toFixed(2) + " milissegundos";
+        document.getElementById("result").value = numbers.join(", ");
+    }
+
+    // Função para resetar a caixa de texto
+    function resetInput() {
+        document.getElementById("inputNumbers").value = "";
+        document.getElementById("result").value = "Resposta...";
+        document.getElementById("output").innerHTML = "";
+        document.getElementById("time").innerHTML = "";
+    }
+
+    // Chamando a função checkLogin para verificar o login quando a página é carregada
+    window.onload = checkLogin;
+
+    function glowwormSort(array) {
+        // Implementação do Glowworm Sort
+        document.getElementById("output").innerHTML = "Glowworm Sort: " + array.join(", ");
+    }
+    
+    function slowSort(array) {
+        // Implementação do Slow Sort
+        document.getElementById("output").innerHTML = "Slow Sort: " + array.join(", ");
+    }
+    
+    function bogoSort(array) {
+        // Implementação do Bogo Sort
+        document.getElementById("output").innerHTML = "Bogo Sort: " + array.join(", ");
+    }
+    
+    function binaryTreeSort(array) {
+        // Implementação do Binary Tree Sort
+        document.getElementById("output").innerHTML = "Binary Tree Sort: " + array.join(", ");
+    }
+    
+    function stoogeSort(array) {
+        // Implementação do Stooge Sort
+        document.getElementById("output").innerHTML = "Stooge Sort: " + array.join(", ");
+    }
+    
+    function pigeonholeSort(array) {
+        // Implementação do Pigeonhole Sort
+        document.getElementById("output").innerHTML = "Pigeonhole Sort: " + array.join(", ");
+    }
+    
+    function cycleSort(array) {
+        // Implementação do Cycle Sort
+        document.getElementById("output").innerHTML = "Cycle Sort: " + array.join(", ");
+    }
+    
+    function combSort(array) {
+        // Implementação do Comb Sort
+        document.getElementById("output").innerHTML = "Comb Sort: " + array.join(", ");
+    }
+    
+    function gnomeSort(array) {
+        // Implementação do Gnome Sort
+        document.getElementById("output").innerHTML = "Gnome Sort: " + array.join(", ");
+    }
+    
+    function cocktailShakerSort(array) {
+        // Implementação do Cocktail Shaker Sort
+        document.getElementById("output").innerHTML = "Cocktail Shaker Sort: " + array.join(", ");
+    }
+    
+    function countingSort(array) {
+        // Implementação do Counting Sort
+        document.getElementById("output").innerHTML = "Counting Sort: " + array.join(", ");
+    }
+    
+    function bucketSort(array) {
+        // Implementação do Bucket Sort
+        document.getElementById("output").innerHTML = "Bucket Sort: " + array.join(", ");
+    }
+    
+    function radixSort(array) {
+        // Implementação do Radix Sort
+        document.getElementById("output").innerHTML = "Radix Sort: " + array.join(", ");
+    }
+    
+    function heapSort(array) {
+        // Implementação do Heap Sort
+        document.getElementById("output").innerHTML = "Heap Sort: " + array.join(", ");
+    }
+    
+    function shellSort(array) {
+        // Implementação do Shell Sort
+        document.getElementById("output").innerHTML = "Shell Sort: " + array.join(", ");
+    }
+    
+    function selectionSort(array) {
+        // Implementação do Selection Sort
+        document.getElementById("output").innerHTML = "Selection Sort: " + array.join(", ");
+    }
+    
+    function insertionSort(array) {
+        // Implementação do Insertion Sort
+        document.getElementById("output").innerHTML = "Insertion Sort: " + array.join(", ");
+    }
+    
+    function mergeSort(array) {
+        // Implementação do Merge Sort
+        document.getElementById("output").innerHTML = "Merge Sort: " + array.join(", ");
+    }
+    
+    function bubbleSort(array) {
+        // Implementação do Bubble Sort
+        document.getElementById("output").innerHTML = "Bubble Sort: " + array.join(", ");
+    }
+</script>
+
+</body>
+</html>
